@@ -1,0 +1,12 @@
+node_modules
+dist
+out
+.tmp
+.DS_Store
+*.log*
+.eslintcache
+.env
+test-results/
+coverage/
+.turbo/
+scripts/merge-yml/*.yml

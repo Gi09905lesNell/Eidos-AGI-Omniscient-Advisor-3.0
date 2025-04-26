@@ -1,0 +1,47 @@
+{
+  "name": "@agent-infra/mcp-server-browser",
+  "version": "0.0.1",
+  "description": "MCP server for browser use access",
+  "license": "MIT",
+  "homepage": "https://modelcontextprotocol.io",
+  "bugs": "https://github.com/modelcontextprotocol/servers/issues",
+  "type": "module",
+  "bin": {
+    "mcp-server-browser": "dist/index.cjs"
+  },
+  "main": "dist/server.cjs",
+  "module": "dist/server.js",
+  "types": "dist/server.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "shx rm -rf dist && rslib build && shx chmod +x dist/*.{js,cjs}",
+    "dev": "npx -y @modelcontextprotocol/inspector tsx src/index.ts",
+    "prepare": "npm run build",
+    "watch": "rslib build --watch"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.10.0"
+  },
+  "devDependencies": {
+    "@agent-infra/logger": "workspace:*",
+    "@ghostery/adblocker-puppeteer": "2.5.0",
+    "cross-fetch": "4.1.0",
+    "@rslib/core": "0.5.3",
+    "turndown": "^7.2.0",
+    "turndown-plugin-gfm": "^1.0.2",
+    "@agent-infra/browser": "workspace:*",
+    "@agent-infra/browser-use": "workspace:*",
+    "puppeteer-core": "^24.1.1",
+    "zod-to-json-schema": "^3.23.5",
+    "zod": "^3.23.8",
+    "tsx": "^4.19.3",
+    "vitest": "^3.0.7",
+    "@types/diff": "^5.0.9",
+    "@types/minimatch": "^5.1.2",
+    "@types/node": "^22",
+    "shx": "^0.3.4",
+    "typescript": "^5.7.3"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "extends": ["@electron-toolkit/tsconfig/tsconfig.node.json", "./tsconfig.base.json"],
+  "include": [
+    "electron.vite.config.*",
+    "vitest.config.*",
+    "forge.config.ts",
+    "scripts/**/*",
+    "src/main/**/*",
+    "src/preload/**/*",
+    "e2e/**/*",
+    "src/shared/**/*",
+    "playwright.config.ts"
+  ],
+  "compilerOptions": {
+    "composite": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "types": ["electron-vite/node"]
+  }
+}

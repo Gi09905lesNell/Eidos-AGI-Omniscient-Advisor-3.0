@@ -1,0 +1,68 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "envMode": "loose",
+  "tasks": {
+    "//#bootstrap": {
+      "dependsOn": [
+        "^prepare"
+      ],
+      "outputs": [
+        "**/build/**",
+        "**/dist/**",
+        "**/out/**"
+      ]
+    },
+    "ui-tars-desktop#build": {
+      "outputs": [
+        "apps/ui-tars-desktop/dist/**",
+        "apps/ui-tars-desktop/out/**"
+      ]
+    },
+    "ui-tars-desktop#build:e2e": {
+      "outputs": [
+        "apps/ui-tars-desktop/out/**",
+        "apps/ui-tars-desktop/dist/**"
+      ]
+    },
+    "ui-tars-desktop#test:e2e": {
+      "dependsOn": [
+        "ui-tars-desktop#build:e2e"
+      ]
+    },
+    "agent-tars-app#build:e2e": {
+      "outputs": [
+        "apps/agent-tars/out/**",
+        "apps/agent-tars/dist/**"
+      ]
+    },
+    "agent-tars-app#test:e2e": {
+      "dependsOn": [
+        "agent-tars-app#build:e2e"
+      ]
+    },
+    "agent-tars-app#build": {
+      "outputs": [
+        "apps/agent-tars/dist/**",
+        "apps/agent-tars/out/**"
+      ]
+    },
+    "//#format": {},
+    "//#lint": {},
+    "//#test": {},
+    "//#coverage": {
+      "outputs": [
+        "coverage/**/*"
+      ]
+    },
+    "prepare": {
+      "dependsOn": [
+        "^prepare"
+      ]
+    },
+    "typecheck": {},
+    "dev": {
+      "persistent": true,
+      "cache": false
+    }
+  }
+}

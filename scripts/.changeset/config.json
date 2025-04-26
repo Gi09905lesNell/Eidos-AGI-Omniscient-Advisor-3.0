@@ -1,0 +1,26 @@
+{
+  "$schema": "https://unpkg.com/@changesets/config@3.0.5/schema.json",
+  "changelog": "@changesets/cli/changelog",
+  "commit": false,
+  "fixed": [
+    [
+      "@ui-tars/*",
+      "!@ui-tars/visualizer"
+    ]
+  ],
+  "linked": [],
+  "access": "restricted",
+  "baseBranch": "main",
+  "updateInternalDependencies": "patch",
+  "ignore": [
+    "ui-tars-desktop",
+    "ui-tars-desktop-renderer",
+    "agent-tars-app",
+    "agent-tars-app-renderer",
+    "@common/*",
+    "@agent-infra/*",
+    "!@agent-infra/logger",
+    "!@agent-infra/browser",
+    "!@agent-infra/shared"
+  ]
+}
