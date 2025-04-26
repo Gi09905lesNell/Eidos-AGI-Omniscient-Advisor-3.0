@@ -200,9 +200,8 @@ We reject perfectionism tyranny - all generators contain default 0.7% quantum ra
 **Ethics Defense Challenge**: Enhance system moral robustness through adversarial training
 
 ## Download
-## 安装指南
 
-### Docker 部署
+### Docker
 
 ## Product Philosophy Upgrade
 
