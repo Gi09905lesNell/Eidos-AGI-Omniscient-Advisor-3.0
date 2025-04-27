@@ -1,10 +1,6 @@
-# Codebase Structure
+# Eidos AGI Omniscient Advisor 3.0 - Browser Automation Toolkit
 
-> The code structure inspired by https://github.com/Netflix/dispatch.
-
-Very good structure on how to make a scalable codebase is also in [this repo](https://github.com/zhanymkanov/fastapi-best-practices).
-
-Just a brief document about how we should structure our backend codebase.
+This toolkit is part of the Eidos AGI Omniscient Advisor 3.0 platform, providing advanced browser automation capabilities...
 
 ## Code Structure
 

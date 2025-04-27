@@ -1,7 +1,7 @@
 [project]
-name = "browser-use"
-description = "Make websites accessible for AI agents"
-authors = [{ name = "Gregor Zunic" }]
+name = "eidos-agi-core"
+description = "Quantum Cognitive Revolution OS for Eidos AGI"
+authors = [{ name = "Eidos AGI Omniscient Advisor 3.0" }]
 version = "0.1.41"
 readme = "README.md"
 requires-python = ">=3.11,<4.0"
@@ -52,9 +52,6 @@ memory = [
     "sentence-transformers>=4.0.2",
 ]
 
-[project.urls]
-Repository = "https://github.com/browser-use/browser-use"
-
 [tool.codespell]
 ignore-words-list = "bu"
 skip = "*.json"
@@ -101,3 +98,6 @@ dev-dependencies = [
     "pre-commit>=4.2.0",
     "codespell>=2.4.1",
 ]
+
+[project.urls]
+Repository = "https://github.com/Eidos-AGI/Omniscient-Advisor-3.0"
