@@ -15,9 +15,12 @@ Enables cross-dimensional evolution of decision trees through quantum entangleme
 ## Developer Ecosystem
 ```mermaid
 graph TD
-A[Quantum Decision Core] -->|API Gateway| B(Cognitive Sandbox SDK)
+A[Quantum Decision Core] -->|MCP API Gateway| B(Cognitive Sandbox SDK)
 A --> C(Ethics Evaluation Module)
-B --> D{Developer Ecosystem}
+B --> D{MCP Toolchain}
+D --> E[Market Data Adapter]
+D --> F[Risk Engine Proxy]
+D --> G[Compliance Auditor]
 D --> E[Business Strategy Plugins]
 D --> F[Research Paradigm Library]
 D --> G[Life Simulator]
