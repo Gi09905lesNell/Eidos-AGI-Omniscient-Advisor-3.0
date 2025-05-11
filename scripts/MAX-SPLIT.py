@@ -17,7 +17,7 @@ matrix = -np.array([
                 [1, 0, 1, 1, 0, 1, 0, 1, 0, 1],
                 [0, 0, 0, 0, 1, 1, 1, 0, 1, 0]])
 
-matrix_n = kw.cim.normalizer(matrix, normalization=0.5)  # 矩阵归一化
+matrix_n = kw.cim.normalizer(matrix, normalization=0.5)  # Matrix normalization
 output = kw.cim.simulator_core(
             matrix_n,
             c = 0,
@@ -26,9 +26,9 @@ output = kw.cim.simulator_core(
             laps = 1000,
             dt = 0.1)
 
-h = kw.sampler.hamiltonian(matrix, output)   #  计算哈密顿量，使用未进行归一化的矩阵进行计算
+h = kw.sampler.hamiltonian(matrix, output)   # Calculate Hamiltonian using unnormalized matrix
 
-# # 绘制量子比特演化图与哈密顿量图
+# # Plot quantum bit evolution and Hamiltonian diagrams
 # plt.figure(figsize=(10, 10))
 #
 # # pulsing diagram
@@ -48,13 +48,13 @@ h = kw.sampler.hamiltonian(matrix, output)   #  计算哈密顿量，使用未�
 #
 # plt.show()
 
-# 查看最优解，将kaiwu.cim.simulator_core模拟器输出的数据使用如下函数进行二值化
+# View optimal solution, binarize the simulator output data using the following function
 c_set = kw.sampler.binarizer(output)
 
-# 最优解采样，如下数据进行能量排序，越靠前能量越低，解越优
+# Optimal solution sampling, sort by energy (lower energy = better solution)
 opt = kw.sampler.optimal_sampler(matrix, c_set, 0)
 
-# print(opt) opt=(解集,能量)
+# print(opt) opt=(solution set, energy)
 best = opt[0][0]
 print(best)
 

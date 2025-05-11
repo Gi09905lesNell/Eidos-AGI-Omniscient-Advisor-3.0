@@ -1,89 +1,87 @@
 Eidos_AGI/
-├── core/                   # 核心决策系统
+├── core/                   # Core Decision System
 │   ├── quantum_decision/
-│   │   ├── qnn_transformer.py   # 量子态注意力机制
-│   │   └── multiverse_simulator.py  # 平行世界模拟器
-│   ├── neuro_interface/    # 神经接口层
-│   │   ├── cortical_feedback.py  # 皮质层逆向反馈协议
-│   │   └── cognitive_decay.py    # 动态认知衰减机制
-│   └── ethos/              # 伦理约束系统
-│       ├── dynamic_ethics.py     # 动态伦理审查
-│       └── anti_utopia.py        # 逆乌托邦防护模块
+│   │   ├── qnn_transformer.py   # Quantum State Attention Mechanism
+│   │   └── multiverse_simulator.py  # Parallel World Simulator
+│   ├── neuro_interface/    # Neural Interface Layer
+│   │   ├── cortical_feedback.py  # Cortical Feedback Protocol
+│   │   └── cognitive_decay.py    # Dynamic Cognitive Decay Mechanism
+│   └── ethos/              # Ethics Constraint System
+│       ├── dynamic_ethics.py     # Dynamic Ethics Review
+│       └── anti_utopia.py        # Anti-Utopia Protection Module
 │
-├── art_engine/             # 创世艺术引擎
-│   ├── quantum_art/        # 量子艺术生成
-│   │   ├── aesthetic_particles.py  # 美学粒子库
-│   │   └── chaos_algorithm.py      # 混沌美学算法  
-│   ├── neural_rendering/   # 神经渲染系统
-│   │   ├── cross_modal.py         # 跨感官渲染
-│   │   └── emotion_converter.py   # 情感超导传输
-│   └── dao_curation/       # 去中心化策展
-│       ├── nft_generator.py       # 量子艺术NFT生成
-│       └── collective_governance.py # DAO治理协议
+├── art_engine/             # Genesis Art Engine
+│   ├── quantum_art/        # Quantum Art Generation
+│   │   ├── aesthetic_particles.py  # Aesthetic Particle Library
+│   │   └── chaos_algorithm.py      # Chaos Aesthetics Algorithm
+│   ├── neural_rendering/   # Neural Rendering System
+│   │   ├── cross_modal.py         # Cross-Sensory Rendering
+│   │   └── emotion_converter.py   # Emotion Superconducting Transfer
+│   └── dao_curation/       # Decentralized Curation
+│       ├── nft_generator.py       # Quantum Art NFT Generator
+│       └── collective_governance.py # DAO Governance Protocol
 │
-├── developer_ecosystem/    # 开发者生态
-│   ├── qsharp_challenges/  # 量子诗编程大赛
-│   ├── biohackathon/       # 神经接口黑客松
-│   └── ethics_gym/         # 伦理攻防训练场
+├── developer_ecosystem/    # Developer Ecosystem
+│   ├── qsharp_challenges/  # Quantum Poetry Programming Contest
+│   ├── biohackathon/       # Neural Interface Hackathon
+│   └── ethics_gym/         # Ethics Defense Training Ground
 │
 ├── config/
-│   ├── quantum_env.yaml    # 量子模拟环境配置
-│   ├── neural_interface.cfg # 神经接口参数
-│   └── art_presets.json    # 艺术生成预设
+│   ├── quantum_env.yaml    # Quantum Simulation Environment Config
+│   ├── neural_interface.cfg # Neural Interface Parameters
+│   └── art_presets.json    # Art Generation Presets
 │
-├── tests/                  # 测试套件
-│   ├── quantum_tests/      # 量子系统测试
-│   ├── ethics_tests/       # 伦理约束测试
-│   └── art_validation/     # 艺术生成验证
+├── tests/                  # Test Suite
+│   ├── quantum_tests/      # Quantum System Tests
+│   ├── ethics_tests/       # Ethics Constraint Tests
+│   └── art_validation/     # Art Generation Validation
 │
-├── docs/                  # 文档体系
-│   ├── api_reference/      # API文档
-│   ├── ethics_charter/     # 神经增强人权宪章
-│   └── developer_guides/   # 开发者指南
+├── docs/                  # Documentation System
+│   ├── api_reference/      # API Documentation
+│   ├── ethics_charter/     # Neural Enhancement Human Rights Charter
+│   └── developer_guides/   # Developer Guides
 │
-├── scripts/               # 实用脚本
-│   ├── cognitive_sandbox.py  # 认知沙盒启动器
-│   └── art_generator_cli.py  # 艺术生成CLI
+├── scripts/               # Utility Scripts
+│   ├── cognitive_sandbox.py  # Cognitive Sandbox Launcher
+│   └── art_generator_cli.py  # Art Generation CLI
 │
-├── requirements.txt       # Python依赖
-├── .gitmodules            # 子模块管理
-└── LICENSE                # AGPLv3 协议
+├── requirements.txt       # Python Dependencies
+├── .gitmodules            # Submodule Management
+└── LICENSE                # AGPLv3 License
 
+Main Design Principles:
 
-主要设计原则：
-
-1. 量子-经典混合架构 ：通过 quantum_decision 和 classic_interface 目录实现量子计算与经典系统的分层交互
-2. 伦理约束优先 ：在核心层内置 ethos 伦理审查系统，所有模块调用均需通过伦理网关
-3. 跨维度开发支持 ：
+1. Quantum-Classical Hybrid Architecture: Implementing layered interaction between quantum computing and classical systems through quantum_decision and classic_interface directories
+2. Ethics Constraints Priority: Built-in ethos ethics review system in the core layer, all module calls must pass through the ethics gateway
+3. Cross-dimensional Development Support:
 
 # core/quantum_decision/multiverse_simulator.py
 class MultiverseSimulator:
     def __init__(self, branch_factors=3):
-        self.parallel_versions = []  # 保存平行版本
-        self.decay_rates = [0.7, 0.5, 0.3]  # 认知衰减系数
+        self.parallel_versions = []  # Store parallel versions
+        self.decay_rates = [0.7, 0.5, 0.3]  # Cognitive decay coefficients
         
     def generate_alternatives(self, decision):
-        """生成决策的平行版本"""
+        """Generate parallel versions of decisions"""
         for rate in self.decay_rates:
             alt_version = self._apply_cognitive_decay(decision, rate)
             self.parallel_versions.append(alt_version)
 
     def _apply_cognitive_decay(self, data, decay_rate):
-        # 实现量子态的信息衰减算法
-        # ... 
+        # Implement quantum state information decay algorithm
+        # ...
 
 
+4. **Art-Science Integration**: Implement collaborative workflow between `quantum art particles` and `neural aesthetics converter` in the `art_engine` module
 
-4. **艺术-科学融合**：在`art_engine`模块实现`量子艺术粒子`与`神经美学转换器`的协同工作流
-
-5. **开发者友好设计**：
+5. **Developer-Friendly Design**:
    ```bash
-   # 快速启动认知沙盒（Windows）
+   # Quick Start Cognitive Sandbox (Windows)
    python scripts/cognitive_sandbox.py --mode=entrepreneur --quantum_bits=128
 
-   建议后续步骤：
+   Suggested Next Steps:
 
-1. 先实现 core/quantum_decision 基础架构
-2. 建立伦理审查与量子计算的交互网关
-3. 开发艺术引擎的跨感官渲染原型
-4. 配置持续集成中的伦理审查流程
+1. First implement core/quantum_decision basic infrastructure
+2. Establish ethics review and quantum computing interaction gateway
+3. Develop cross-sensory rendering prototype for art engine
+4. Configure ethics review process in continuous integration

@@ -1,40 +1,40 @@
 class EthicsGateway:
     def __init__(self):
-        self.decision_log = QuantumStorage()  # 量子加密决策日志
+        self.decision_log = QuantumStorage()  # Quantum encrypted decision log
         self.ethics_rules = self._load_ethics_rules()
         self.quantum_validator = QuantumValidator()
         self.simulation_engine = ParallelSimulator()
         
     def _load_ethics_rules(self):
-        """加载伦理规则库"""
+        """Load ethics rules library"""
         try:
-            # 从配置文件加载基础伦理规则
+            # Load basic ethics rules from config file
             rules = EthicsRuleLoader.load_from_config()
-            # 动态扩展规则
+            # Dynamically extend rules
             rules.extend(self._generate_derived_rules())
             return rules
         except Exception as e:
-            raise EthicsInitializationError(f"伦理规则加载失败: {str(e)}")
+            raise EthicsInitializationError(f"Failed to load ethics rules: {str(e)}")
 
     def validate_decision(self, decision):
-        # 新增平行宇宙伦理预演
+        # Add parallel universe ethics simulation
         self.decision_log.record_decision_start(decision)
         
         try:
-            # 生成决策的多个平行版本
+            # Generate multiple parallel versions of the decision
             alternatives = self.generate_alternatives(decision)
             
-            # 并行验证所有版本
+            # Validate all versions in parallel
             for alt_version in alternatives:
                 validation_result = self._pass_ethics_check(alt_version)
                 
                 if not validation_result.is_valid:
                     self.decision_log.record_violation(alt_version, validation_result.violations)
                     raise EthicsViolationError(
-                        f"平行版本 {alt_version} 违反伦理约束: {validation_result.violations}"
+                        f"Parallel version {alt_version} violates ethics constraints: {validation_result.violations}"
                     )
                     
-            # 记录成功的决策
+            # Record successful decision
             self.decision_log.record_decision_success(decision)
             return True
             
@@ -43,30 +43,30 @@ class EthicsGateway:
             raise
 
     def generate_alternatives(self, decision):
-        """生成决策的平行宇宙版本"""
+        """Generate parallel universe versions of the decision"""
         return self.simulation_engine.generate_parallel_versions(
             decision,
-            num_versions=5,  # 生成5个平行版本
-            variance_factor=0.3  # 30%的差异度
+            num_versions=5,  # Generate 5 parallel versions
+            variance_factor=0.3  # 30% variance
         )
 
     def _pass_ethics_check(self, decision):
-        """量子模糊验证算法"""
+        """Quantum fuzzy validation algorithm"""
         validation_result = ValidationResult()
         
-        # 量子态伦理验证
+        # Quantum state ethics validation
         quantum_state = self.quantum_validator.prepare_quantum_state(decision)
         
-        # 对每条伦理规则进行验证
+        # Validate against each ethics rule
         for rule in self.ethics_rules:
             rule_result = rule.validate(quantum_state)
             if not rule_result.passed:
                 validation_result.add_violation(rule_result.violation_details)
                 
-        # 进行模糊逻辑评估
+        # Perform fuzzy logic evaluation
         fuzzy_score = self.quantum_validator.evaluate_fuzzy_ethics(quantum_state)
         if fuzzy_score < self.quantum_validator.get_acceptance_threshold():
-            validation_result.add_violation("模糊伦理评分未达标")
+            validation_result.add_violation("Fuzzy ethics score below threshold")
             
         return validation_result
 

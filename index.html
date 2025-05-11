@@ -1,25 +1,992 @@
-window.$docsify = {
-  name: 'Eidos AGI Quantum Computing',
-  repo: 'Eidos-AGI/Omniscient-Advisor-3.0',
-  loadSidebar: 'SUMMARY.md',
-  auto2top: true,
-  themeColor: '#6929c4',
-  repo: 'apachecn/lqcuq-zh',
-  plugins: [window.docsPlugin],
-  alias: {
-    '/.*/SUMMARY.md': '/SUMMARY.md',
-  },
-  // Delete following statistics ID
-  bdStatId: '',
-  cnzzId: '',
-  search: {
-    paths: 'auto',
-    placeholder: 'Search',
-    noData: 'No Results',
-  },
-  copyCode: {
-    buttonText: 'Copy',
-    errorText: 'Error',
-    successText: 'Success!',
-  },
-}
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eidos AGI - Quantum Cognitive Revolution</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* 全局变量和基础样式 */
+        :root {
+            --primary-color: #30a14e;
+            --secondary-color: #58a6ff;
+            --bg-color: #0d1117;
+            --text-color: #c9d1d9;
+            --card-bg: rgba(22, 27, 34, 0.8);
+            --gradient: linear-gradient(135deg, #30a14e, #58a6ff);
+        }
+        
+        [data-theme="light"] {
+            --bg-color: #f6f8fa;
+            --text-color: #24292e;
+            --card-bg: rgba(255, 255, 255, 0.8);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* 主题切换按钮 */
+        .theme-toggle {
+            position: fixed;
+            top: 100px;
+            right: 30px;
+            width: 40px;
+            height: 40px;
+            background: var(--gradient);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            z-index: 99;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .theme-toggle:hover {
+            transform: rotate(30deg);
+        }
+        
+        /* 导航栏样式 */
+        header {
+            background: rgba(13, 17, 23, 0.8);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(48, 161, 78, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        header.scrolled {
+            background: rgba(13, 17, 23, 0.95);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        
+        .logo i {
+            margin-right: 10px;
+            font-size: 2rem;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 30px;
+        }
+        
+        .nav-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background: var(--gradient);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        /* 英雄区域样式 */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            padding-top: 80px;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            padding: 40px;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: fadeIn 1s ease-out;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            animation: fadeIn 1.5s ease-out;
+        }
+        
+        /* 移动端菜单按钮 */
+        .menu-toggle {
+            display: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: var(--text-color);
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+            
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background: rgba(13, 17, 23, 0.95);
+                flex-direction: column;
+                align-items: center;
+                padding: 20px 0;
+                clip-path: circle(0px at 100% 0);
+                transition: clip-path 0.5s ease;
+                z-index: 999;
+            }
+            
+            .nav-links.active {
+                clip-path: circle(1000px at 100% 0);
+            }
+            
+            .nav-links li {
+                margin: 15px 0;
+            }
+        }
+        
+        /* 内容区域样式 */
+        .section {
+            padding: 80px 0;
+        }
+        
+        h1, h2, h3 {
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 30px;
+        }
+        
+        h1::after, h2::after {
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: var(--gradient);
+            border-radius: 3px;
+            transition: width 0.8s ease;
+        }
+        
+        h1:hover::after, h2:hover::after {
+            width: 100%;
+        }
+        
+        /* 卡片样式 */
+        .feature-card {
+            position: relative;
+            overflow: hidden;
+            background: var(--card-bg);
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid rgba(48, 161, 78, 0.2);
+            z-index: 1;
+        }
+        
+        .feature-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(48, 161, 78, 0.1), rgba(88, 166, 255, 0.1));
+            z-index: -1;
+            transform: translateY(100%);
+            transition: transform 0.5s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .feature-card:hover::before {
+            transform: translateY(0);
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        /* 两栏布局 */
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+        
+        @media (max-width: 768px) {
+            .two-column {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* 图片占位符 */
+        .image-placeholder {
+            position: relative;
+            background: var(--gradient);
+            height: 300px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            overflow: hidden;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+            transition: transform 0.5s ease;
+        }
+        
+        .image-placeholder:hover {
+            transform: rotateY(10deg);
+        }
+        
+        /* 按钮样式 */
+        .cta-button {
+            position: relative;
+            display: inline-block;
+            background: var(--gradient);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-top: 20px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: none;
+            cursor: pointer;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .cta-button::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, rgba(255,255,255,0.1), rgba(255,255,255,0.4), rgba(255,255,255,0.1));
+            transition: left 0.7s ease;
+            z-index: -1;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .cta-button:hover::before {
+            left: 100%;
+        }
+        
+        /* 代码块样式 */
+        .code-block {
+            position: relative;
+            background: rgba(13, 17, 23, 0.8);
+            border-radius: 10px;
+            padding: 30px 20px 20px;
+            margin: 30px 0;
+            overflow-x: auto;
+            border: 1px solid rgba(48, 161, 78, 0.3);
+            transition: all 0.3s ease;
+            font-family: 'Consolas', 'Monaco', monospace;
+        }
+        
+        .code-block::before {
+            content: "// Eidos Quantum Code";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 5px 15px;
+            background: rgba(48, 161, 78, 0.2);
+            font-size: 0.8rem;
+            color: var(--primary-color);
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+        
+        .code-block:hover {
+            box-shadow: 0 0 20px rgba(48, 161, 78, 0.5);
+            transform: translateY(-5px);
+        }
+        
+        .code-block code {
+            display: block;
+            line-height: 1.5;
+        }
+        
+        .code-block .comment {
+            color: #8b949e;
+        }
+        
+        .code-block .keyword {
+            color: #ff7b72;
+        }
+        
+        .code-block .string {
+            color: #a5d6ff;
+        }
+        
+        .code-block .function {
+            color: #d2a8ff;
+        }
+        
+        /* 徽章样式 */
+        .badge {
+            display: inline-block;
+            background: rgba(48, 161, 78, 0.2);
+            color: var(--primary-color);
+            padding: 5px 15px;
+            border-radius: 20px;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+        
+        .badge:hover {
+            background: rgba(48, 161, 78, 0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* 玻璃态效果 */
+        .glass-effect {
+            background: rgba(13, 17, 23, 0.6);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(48, 161, 78, 0.2);
+            border-radius: 10px;
+        }
+        
+        /* 加载动画 */
+        .loader-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+        
+        .loader {
+            width: 100px;
+            height: 100px;
+            border: 5px solid transparent;
+            border-top: 5px solid var(--primary-color);
+            border-bottom: 5px solid var(--secondary-color);
+            border-radius: 50%;
+            animation: spin 1.5s linear infinite;
+            position: relative;
+        }
+        
+        .loader::before {
+            content: "";
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            bottom: 10px;
+            border: 5px solid transparent;
+            border-left: 5px solid var(--primary-color);
+            border-right: 5px solid var(--secondary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite reverse;
+        }
+        
+        .loader-hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+        
+        /* 霓虹灯效果 */
+        .neon-text {
+            color: #fff;
+            text-shadow: 0 0 5px #30a14e, 0 0 10px #30a14e, 0 0 20px #30a14e;
+            animation: neon-pulse 1.5s infinite alternate;
+        }
+        
+        /* 打字机效果 */
+        .typewriter h1 {
+            overflow: hidden;
+            border-right: 0.15em solid var(--primary-color);
+            white-space: nowrap;
+            margin: 0 auto;
+            animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+        }
+        
+        /* 动画定义 */
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        @keyframes glow {
+            0% { box-shadow: 0 0 5px rgba(48, 161, 78, 0.5); }
+            50% { box-shadow: 0 0 20px rgba(48, 161, 78, 0.8); }
+            100% { box-shadow: 0 0 5px rgba(48, 161, 78, 0.5); }
+        }
+        
+        @keyframes neon-pulse {
+            from { text-shadow: 0 0 5px #30a14e, 0 0 10px #30a14e, 0 0 20px #30a14e; }
+            to { text-shadow: 0 0 10px #30a14e, 0 0 20px #30a14e, 0 0 30px #30a14e, 0 0 40px #30a14e; }
+        }
+        
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+        
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: var(--primary-color) }
+        }
+        
+        /* 滚动显示动画 */
+        .fade-in-section {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        
+        .fade-in-section.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* 粒子背景 */
+        #particles-js {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 0;
+        }
+        
+        /* 页脚样式 */
+        footer {
+            background: rgba(13, 17, 23, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 40px 0;
+            text-align: center;
+            border-top: 1px solid rgba(48, 161, 78, 0.2);
+        }
+        
+        footer p {
+            margin-bottom: 10px;
+        }
+        
+        .footer-note {
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+    </style>
+</head>
+<body>
+    <!-- 加载动画 -->
+    <div class="loader-wrapper">
+        <div class="loader"></div>
+    </div>
+    
+    <!-- 粒子背景 -->
+    <div id="particles-js"></div>
+    
+    <!-- 主题切换按钮 -->
+    <div class="theme-toggle">
+        <i class="fas fa-moon"></i>
+    </div>
+    
+    <!-- 导航栏 -->
+    <header>
+        <div class="container">
+            <nav>
+                <a href="#" class="logo"><i class="fas fa-brain"></i> Eidos AGI</a>
+                <ul class="nav-links">
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#quantum-art">Quantum Art</a></li>
+                    <li><a href="#philosophy">Product Philosophy</a></li>
+                    <li><a href="#ecosystem">Developer Ecosystem</a></li>
+                    <li><a href="https://github.com/Gi09905lesNell/Eidos-AGI-Omniscient-Advisor-3.0/archive/refs/heads/main.zip" class="cta-button">Download Eidos AGI</a></li>
+                </ul>
+                <div class="menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </nav>
+        </div>
+    </header>
+    <!-- 英雄区域 -->
+    <section class="hero">
+        <div class="hero-content glass-effect">
+            <div class="typewriter" style="width: 100%; white-space: normal;">
+                <h1 style="white-space: normal; line-height: 1.2; font-size: 2.8rem; letter-spacing: -0.5px;">Eidos AGI - Quantum Cognitive Revolution</h1>
+            </div>
+            <p>Redefining the relationship between humans and artificial intelligence - not replacement, but enhancement; not control, but collaboration.</p>
+            <a href="#download" class="cta-button">Start Exploring <i class="fas fa-arrow-right"></i></a>
+        </div>
+    </section>
+    <div class="container">
+        <section class="section fade-in-section" id="features">
+            <h2>Quick Start</h2>
+            <div class="code-block glass-effect">
+                <code>
+                    <span class="comment"># Install quantum simulation environment</span><br>
+                    <span class="keyword">pip</span> install eidos-qenv<br><br>
+                    <span class="comment"># Launch cognitive sandbox</span><br>
+                    <span class="keyword">from</span> eidos <span class="keyword">import</span> QuantumSandbox<br>
+                    sandbox = <span class="function">QuantumSandbox</span>(mode=<span class="string">'entrepreneur'</span>)<br>
+                    <span class="keyword">print</span>(sandbox.<span class="function">generate_decision</span>(<span class="string">"quantum computing market entry strategy"</span>))
+                </code>
+            </div>
+            <div class="center-content">
+                <p>With just a few lines of code, start exploring the infinite possibilities of quantum cognition. Our SDK supports multiple programming languages including Python, JavaScript, Rust and Go.</p>
+            </div>
+        </section>
+
+        <section class="section fade-in-section" id="quantum-art">
+            <h2>Syntheia Genesis Art Engine 2.0</h2>
+            <div class="two-column">
+                <div class="image-placeholder">
+                    Quantum Art Generation Example
+                </div>
+                <div>
+                    <p>As the artistic expression component of the Eidos AGI ecosystem, Syntheia Genesis transforms thalamic pulses into cosmic poetry, pioneering new dimensions of artistic experience.</p>
+                    <h3>Perception Revolution</h3>
+                    <div class="list-item">
+                        <p><strong>Quantum Art Element Library</strong>: 137 fundamental aesthetic particles, supporting cross-dimensional combinations</p>
+                    </div>
+                    <div class="list-item">
+                        <p><strong>Neural Aesthetics Converter</strong>: Maps amygdala activity patterns to artistic style matrices</p>
+                    </div>
+                    <div class="list-item">
+                        <p><strong>Cross-modal Rendering Engine</strong>: Generates experiences beyond the five senses, such as "temporal thickness perception"</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section fade-in-section" id="philosophy">
+            <h2>Product Philosophy</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h3>Quantum Humanism</h3>
+                    <p>Embeds "imperfection protection layers" to ensure necessary flaws in decisions/artworks, preserving the uniqueness and unpredictability of human creativity.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Cognitive Redundancy</h3>
+                    <p>Maintains 3 hidden parallel versions of all outputs, accessible through specific rituals, providing users with multi-perspective thinking capabilities.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Anti-dystopian Protection</h3>
+                    <p>Activates creative interference when group-think convergence is detected, preventing society from falling into single-minded thought patterns.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section fade-in-section" id="ecosystem">
+            <h2>Developer Ecosystem Activities</h2>
+            <div class="two-column">
+                <div>
+                    <div class="list-item">
+                        <h3>Quantum Poetry Competition</h3>
+                        <p>Create aesthetic quantum algorithms using Q#, exploring the boundaries between computation and art. Next competition begins on Quantum Full Moon Day.</p>
+                    </div>
+                    <div class="list-item">
+                        <h3>Neural Interface Hackathon</h3>
+                        <p>Develop new artistic perception capabilities through biochip modifications, opening new dimensions of sensory experience for humans.</p>
+                    </div>
+                    <div class="list-item">
+                        <h3>Ethics Defense Challenge</h3>
+                        <p>Enhance system moral robustness through adversarial training, ensuring AI decisions always align with highest human values.</p>
+                    </div>
+                </div>
+                <div class="image-placeholder">
+                    Quantum Hackathon Scene
+                </div>
+            </div>
+        </section>
+
+        <section class="section fade-in-section verification-section glass-effect">
+            <h2>Compliance Verification</h2>
+            <p>All generated content undergoes rigorous quantum ethical verification processes to ensure safety, reliability and moral standards:</p>
+            <div>
+                <span class="badge">Hilbert Space Ethical Topology Scan</span>
+                <span class="badge">Cross-temporal Causal Audit (CTC-Audit v2.4)</span>
+                <span class="badge">Neural Diversity Perspective Sampling</span>
+                <span class="badge">Quantum Ethics Committee Certification</span>
+                <span class="badge">Human Values Alignment Verification</span>
+            </div>
+            <p style="margin-top: 20px;">Our system complies with all provisions of the Neural Enhancement Human Rights Charter v17, ensuring users' cognitive autonomy and data sovereignty.</p>
+        </section>
+
+        <section class="section fade-in-section">
+            <h2>Quantum Art Fusion Protocol</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h3>Entangled Brush</h3>
+                    <p>Paint using cross-dimensional paired particles, with 89% correlation fidelity guarantee. Create artworks that exist simultaneously in multiple dimensions.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Superposition Canvas</h3>
+                    <p>Simultaneously render 7 artistic interpretations, collapsing to preferred state through observer interaction. Each viewing is a unique experience.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Temporal Palette</h3>
+                    <p>Access color spectrums from 12 cosmic epochs, requires temporal stabilization module. Capture the chromatic essence of universal evolution.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section fade-in-section" id="download">
+            <div class="center-content">
+                <h2 class="neon-text">Experience the Quantum Cognitive Revolution Now</h2>
+                <p>Eidos AGI is redefining the relationship between humans and artificial intelligence - not replacement, but enhancement; not control, but collaboration. Join us in exploring new frontiers of cognition.</p>
+                <div style="margin: 30px 0;">
+                    <a href="https://github.com/Gi09905lesNell/Eidos-AGI-Omniscient-Advisor-3.0/archive/refs/heads/main.zip" class="cta-button">Download Eidos AGI</a>
+                    <a href="https://github.com/Gi09905lesNell/Eidos-AGI-Omniscient-Advisor-3.0" class="cta-button" style="background: transparent; border: 2px solid var(--primary-color); margin-left: 20px;">View Documentation</a>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>© Eidos AGI - Quantum Cognitive Revolution</p>
+            <p>All contributions become part of the human collective consciousness repository</p>
+            <p>Commercial use requires Neural Ethics Impact Assessment Certificate</p>
+            <p class="footer-note">System requires continuous connection to Mindscape Network (minimum 7.4 exaflops/s)</p>
+        </div>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <script>
+        // 平滑滚动到锚点
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if(targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if(targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                    
+                    // 更新URL但不刷新页面
+                    history.pushState(null, null, targetId);
+                }
+            });
+        });
+        
+        // 主题切换功能
+        const themeToggle = document.querySelector('.theme-toggle');
+        const themeIcon = themeToggle.querySelector('i');
+        
+        // 检查本地存储中的主题设置
+        const currentTheme = localStorage.getItem('theme');
+        if (currentTheme) {
+            document.documentElement.setAttribute('data-theme', currentTheme);
+            if (currentTheme === 'light') {
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+            }
+        }
+        
+        themeToggle.addEventListener('click', function() {
+            let theme = document.documentElement.getAttribute('data-theme');
+            
+            if (theme === 'light') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                document.documentElement.setAttribute('data-theme', 'light');
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+                localStorage.setItem('theme', 'light');
+            }
+        });
+        
+        // 页面加载完成后隐藏加载动画
+        window.addEventListener('load', function() {
+            const loader = document.querySelector('.loader-wrapper');
+            setTimeout(function() {
+                loader.classList.add('loader-hidden');
+            }, 1000);
+        });
+        
+        // 导航栏滚动效果
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('header');
+            header.classList.toggle('scrolled', window.scrollY > 50);
+        });
+        
+        // 移动端菜单切换
+        const menuToggle = document.querySelector('.menu-toggle');
+        const navLinks = document.querySelector('.nav-links');
+        
+        if(menuToggle) {
+            menuToggle.addEventListener('click', function() {
+                navLinks.classList.toggle('active');
+            });
+        }
+        
+        // 滚动动画效果
+        document.addEventListener('DOMContentLoaded', function() {
+            // 添加淡入效果
+            const sections = document.querySelectorAll('.fade-in-section');
+            
+            // 检测元素是否在视口中
+            function checkIfInView() {
+                sections.forEach(section => {
+                    const sectionTop = section.getBoundingClientRect().top;
+                    const sectionBottom = section.getBoundingClientRect().bottom;
+                    const isVisible = (sectionTop < window.innerHeight - 100) && (sectionBottom > 0);
+                    if (isVisible) {
+                        section.classList.add('is-visible');
+                    }
+                });
+            }
+            
+            // 初始检查
+            checkIfInView();
+            
+            // 滚动时检查
+            window.addEventListener('scroll', checkIfInView);
+            
+            // 粒子背景效果
+            if(document.getElementById('particles-js')) {
+                particlesJS('particles-js', {
+                    "particles": {
+                        "number": {
+                            "value": 80,
+                            "density": {
+                                "enable": true,
+                                "value_area": 800
+                            }
+                        },
+                        "color": {
+                            "value": "#30a14e"
+                        },
+                        "shape": {
+                            "type": "circle",
+                            "stroke": {
+                                "width": 0,
+                                "color": "#000000"
+                            },
+                            "polygon": {
+                                "nb_sides": 5
+                            }
+                        },
+                        "opacity": {
+                            "value": 0.5,
+                            "random": false,
+                            "anim": {
+                                "enable": false,
+                                "speed": 1,
+                                "opacity_min": 0.1,
+                                "sync": false
+                            }
+                        },
+                        "size": {
+                            "value": 3,
+                            "random": true,
+                            "anim": {
+                                "enable": false,
+                                "speed": 40,
+                                "size_min": 0.1,
+                                "sync": false
+                            }
+                        },
+                        "line_linked": {
+                            "enable": true,
+                            "distance": 150,
+                            "color": "#30a14e",
+                            "opacity": 0.4,
+                            "width": 1
+                        },
+                        "move": {
+                            "enable": true,
+                            "speed": 2,
+                            "direction": "none",
+                            "random": false,
+                            "straight": false,
+                            "out_mode": "out",
+                            "bounce": false,
+                            "attract": {
+                                "enable": false,
+                                "rotateX": 600,
+                                "rotateY": 1200
+                            }
+                        }
+                    },
+                    "interactivity": {
+                        "detect_on": "canvas",
+                        "events": {
+                            "onhover": {
+                                "enable": true,
+                                "mode": "grab"
+                            },
+                            "onclick": {
+                                "enable": true,
+                                "mode": "push"
+                            },
+                            "resize": true
+                        },
+                        "modes": {
+                            "grab": {
+                                "distance": 140,
+                                "line_linked": {
+                                    "opacity": 1
+                                }
+                            },
+                            "bubble": {
+                                "distance": 400,
+                                "size": 40,
+                                "duration": 2,
+                                "opacity": 8,
+                                "speed": 3
+                            },
+                            "repulse": {
+                                "distance": 200,
+                                "duration": 0.4
+                            },
+                            "push": {
+                                "particles_nb": 4
+                            },
+                            "remove": {
+                                "particles_nb": 2
+                            }
+                        }
+                    },
+                    "retina_detect": true
+                });
+            }
+            
+            // 打字机效果
+            if(document.querySelector('.typewriter h1')) {
+                const text = document.querySelector('.typewriter h1').textContent;
+                document.querySelector('.typewriter h1').textContent = '';
+                let i = 0;
+                
+                function typeWriter() {
+                    if (i < text.length) {
+                        document.querySelector('.typewriter h1').textContent += text.charAt(i);
+                        i++;
+                        setTimeout(typeWriter, 100);
+                    }
+                }
+                
+                typeWriter();
+            }
+        });
+    </script>
+</body>
+</html>

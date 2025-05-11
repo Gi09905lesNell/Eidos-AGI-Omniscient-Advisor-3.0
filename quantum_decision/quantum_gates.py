@@ -1,66 +1,66 @@
-# 量子门操作模块
+# Quantum Gate Operations Module
 import torch
 import numpy as np
 from typing import Union, Optional, List, Tuple
 import cmath
 class QuantumGates:
-    """量子门操作类,实现各种量子门的矩阵表示和应用"""
+    """Quantum gate operations class, implementing matrix representations and applications of various quantum gates"""
     
     def __init__(self):
-        # 初始化基本量子门矩阵
+        # Initialize basic quantum gate matrices
         self.hadamard_matrix = torch.tensor([[1, 1], [1, -1]], dtype=torch.complex64) / np.sqrt(2)
         self.pauli_x = torch.tensor([[0, 1], [1, 0]], dtype=torch.complex64)
         self.pauli_y = torch.tensor([[0, -1j], [1j, 0]], dtype=torch.complex64)
         self.pauli_z = torch.tensor([[1, 0], [0, -1]], dtype=torch.complex64)
         self.identity = torch.eye(2, dtype=torch.complex64)
         
-        # 相位门
+        # Phase gates
         self.s_gate = torch.tensor([[1, 0], [0, 1j]], dtype=torch.complex64)
         self.t_gate = torch.tensor([[1, 0], [0, cmath.exp(1j * np.pi/4)]], dtype=torch.complex64)
         
-        # CNOT门
+        # CNOT gate
         self.cnot = torch.tensor([[1, 0, 0, 0],
                                 [0, 1, 0, 0],
                                 [0, 0, 0, 1],
                                 [0, 0, 1, 0]], dtype=torch.complex64)
         
-        # SWAP门
+        # SWAP gate
         self.swap = torch.tensor([[1, 0, 0, 0],
                                 [0, 0, 1, 0],
                                 [0, 1, 0, 0],
                                 [0, 0, 0, 1]], dtype=torch.complex64)
 
     def apply_hadamard(self, q_state: torch.Tensor) -> torch.Tensor:
-        """应用Hadamard门"""
+        """Apply Hadamard gate"""
         return torch.matmul(q_state, self.hadamard_matrix)
     
     def apply_pauli_x(self, q_state: torch.Tensor) -> torch.Tensor:
-        """应用Pauli-X门(NOT门)"""
+        """Apply Pauli-X gate (NOT gate)"""
         return torch.matmul(q_state, self.pauli_x)
     
     def apply_pauli_y(self, q_state: torch.Tensor) -> torch.Tensor:
-        """应用Pauli-Y门"""
+        """Apply Pauli-Y gate"""
         return torch.matmul(q_state, self.pauli_y)
     
     def apply_pauli_z(self, q_state: torch.Tensor) -> torch.Tensor:
-        """应用Pauli-Z门"""
+        """Apply Pauli-Z gate"""
         return torch.matmul(q_state, self.pauli_z)
     
     def apply_s_gate(self, q_state: torch.Tensor) -> torch.Tensor:
-        """应用S门(π/2相位门)"""
+        """Apply S gate (π/2 phase gate)"""
         return torch.matmul(q_state, self.s_gate)
     
     def apply_t_gate(self, q_state: torch.Tensor) -> torch.Tensor:
-        """应用T门(π/4相位门)"""
+        """Apply T gate (π/4 phase gate)"""
         return torch.matmul(q_state, self.t_gate)
     
     def apply_rotation(self, q_state: torch.Tensor, angle: float, axis: str) -> torch.Tensor:
-        """应用任意轴旋转门
+        """Apply arbitrary axis rotation gate
         
         Args:
-            q_state: 量子态
-            angle: 旋转角度(弧度)
-            axis: 旋转轴('x', 'y' 或 'z')
+            q_state: Quantum state
+            angle: Rotation angle (radians)
+            axis: Rotation axis ('x', 'y' or 'z')
         """
         cos = np.cos(angle/2)
         sin = np.sin(angle/2)
@@ -75,24 +75,24 @@ class QuantumGates:
             matrix = torch.tensor([[cmath.exp(-1j*angle/2), 0],
                                  [0, cmath.exp(1j*angle/2)]], dtype=torch.complex64)
         else:
-            raise ValueError("轴必须是 'x', 'y' 或 'z'")
+            raise ValueError("Axis must be 'x', 'y' or 'z'")
             
         return torch.matmul(q_state, matrix)
     
     def apply_cnot(self, q_states: torch.Tensor) -> torch.Tensor:
-        """应用CNOT门到两量子比特态"""
+        """Apply CNOT gate to two-qubit state"""
         return torch.matmul(q_states, self.cnot)
     
     def apply_swap(self, q_states: torch.Tensor) -> torch.Tensor:
-        """应用SWAP门到两量子比特态"""
+        """Apply SWAP gate to two-qubit state"""
         return torch.matmul(q_states, self.swap)
     
     def apply_controlled_u(self, q_states: torch.Tensor, u_matrix: torch.Tensor) -> torch.Tensor:
-        """应用受控U门
+        """Apply controlled-U gate
         
         Args:
-            q_states: 两量子比特态
-            u_matrix: 2x2幺正矩阵
+            q_states: Two-qubit state
+            u_matrix: 2x2 unitary matrix
         """
         controlled_u = torch.zeros((4, 4), dtype=torch.complex64)
         controlled_u[:2, :2] = self.identity
@@ -100,35 +100,35 @@ class QuantumGates:
         return torch.matmul(q_states, controlled_u)
     
     def apply_toffoli(self, q_states: torch.Tensor) -> torch.Tensor:
-        """应用Toffoli门(CCNOT)到三量子比特态"""
+        """Apply Toffoli gate (CCNOT) to three-qubit state"""
         toffoli = torch.eye(8, dtype=torch.complex64)
         toffoli[6:8, 6:8] = self.pauli_x
         return torch.matmul(q_states, toffoli)
     
     def apply_phase(self, q_state: torch.Tensor, phase: float) -> torch.Tensor:
-        """应用任意相位门"""
+        """Apply arbitrary phase gate"""
         phase_matrix = torch.tensor([[1, 0],
                                    [0, cmath.exp(1j*phase)]], dtype=torch.complex64)
         return torch.matmul(q_state, phase_matrix)
     
     def create_bell_state(self) -> torch.Tensor:
-        """创建Bell态(最大纠缠态)"""
-        # 初始化为|00⟩态
+        """Create Bell state (maximally entangled state)"""
+        # Initialize to |00⟩ state
         state = torch.tensor([1, 0, 0, 0], dtype=torch.complex64)
-        # 对第一个量子比特应用Hadamard门
+        # Apply Hadamard gate to first qubit
         state = self.apply_hadamard(state.view(1, -1)).view(-1)
-        # 应用CNOT门
+        # Apply CNOT gate
         return self.apply_cnot(state.view(1, -1)).view(-1)
     
     def measure(self, q_state: torch.Tensor, shots: int = 1000) -> dict:
-        """测量量子态
+        """Measure quantum state
         
         Args:
-            q_state: 量子态向量
-            shots: 测量次数
+            q_state: Quantum state vector
+            shots: Number of measurements
         
         Returns:
-            测量结果的统计字典
+            Dictionary of measurement statistics
         """
         probs = torch.abs(q_state) ** 2
         outcomes = torch.multinomial(probs, shots, replacement=True)
@@ -141,24 +141,24 @@ class QuantumGates:
         return result
     
     def apply_custom_gate(self, q_state: torch.Tensor, matrix: torch.Tensor) -> torch.Tensor:
-        """应用自定义量子门
+        """Apply custom quantum gate
         
         Args:
-            q_state: 量子态
-            matrix: 自定义门的矩阵表示
+            q_state: Quantum state
+            matrix: Matrix representation of custom gate
         """
         return torch.matmul(q_state, matrix)
     
     def apply_grover_diffusion(self, q_state: torch.Tensor) -> torch.Tensor:
-        """应用Grover扩散算子"""
+        """Apply Grover diffusion operator"""
         n_qubits = int(np.log2(len(q_state)))
-        # 构建2^n x 2^n的Hadamard门
+        # Construct 2^n x 2^n Hadamard gate
         h_n = self.hadamard_matrix
         for _ in range(n_qubits-1):
             h_n = torch.kron(h_n, self.hadamard_matrix)
-        # 应用H⊗n
+        # Apply H⊗n
         state = torch.matmul(q_state, h_n)
-        # 应用条件相位反转
+        # Apply conditional phase flip
         state = 2 * torch.mean(state) - state
-        # 再次应用H⊗n
+        # Apply H⊗n again
         return torch.matmul(state, h_n)
